@@ -1,24 +1,26 @@
-import logo from './logo.svg';
+import { useEffect, useState } from 'react';
 import './App.css';
 
+import { DropDown } from './components/DropDown'
+
+import { getCountries } from './api/countryApi'
+
 function App() {
+  const [countries, setCountries] = useState();
+  const [selected, setSelected] = useState(false)
+
+  useEffect(() => {
+    const getData = async () => {
+      const initialData = await getCountries()
+      setCountries(initialData)
+    }
+    getData()
+  }, [])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <DropDown selected={selected} showCountries={setSelected} countries={countries}></DropDown>
+    </>
   );
 }
 
